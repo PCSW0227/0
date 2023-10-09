@@ -1,15 +1,35 @@
+
 import streamlit as st
+from PIL import Image  # 이 줄을 추가
+from Project_Module import project1, project2
+
+# 나머지 코드는 그대로 두면 됩니다.
+
 
 # 타이틀 및 간단한 설명
 st.title("Welcome to Minji's Portfolio")
-
 # 상단 메뉴
-menu = st.selectbox("Click", [ "Education", "Work Experience", "Technical Stack", "Projects","Identity"])
+menu = st.selectbox("Click", ["Projects", "Technical Stack", "Education", "Work Experience", "Identity"])
 
 
+projects = [project1, project2]
+
+
+# Projects 섹션
+if menu == "Projects":
+    st.header("Projects")
+    selected_project_name = st.selectbox("Select a project", [p.name for p in projects])
+    selected_project = next((p for p in projects if p.name == selected_project_name), None)
+
+    if selected_project is not None:
+        for img_path in selected_project.images:
+            img = Image.open(img_path)  # 이미지 파일 열기
+            st.image(img, caption=selected_project_name, use_column_width=True)
+
+        st.write(selected_project.description)
 
 # Identity 섹션
-if menu == "Identity":
+elif menu == "Identity":
     st.header("Identity")
     st.markdown("<br>", unsafe_allow_html=True)  # 줄바꿈 추가
     st.write("■ I - Innovation")
@@ -50,7 +70,12 @@ elif menu == "Education":
 
     st.subheader("Highest Education_Master's Degree")
     st.write("Sookmyung Women's University - Master of Big Data Analysis Convergence")
-    st.write("The Master of Big Data Analysis Convergence program at Sookmyung Women's University is a comprehensive program that focuses on advanced data analysis techniques, artificial intelligence, and data management. This program equips students with the skills to extract valuable insights from large datasets and make data-driven decisions, contributing to the rapidly growing field of data science.")
+    st.write("The Master of Big Data Analysis Convergence program")
+    st.write("at Sookmyung Women's University is a comprehensive program")
+    st.write("that focuses on advanced data analysis techniques, artificial intelligence, and data management.")
+    st.write("This program equips students with the skills")
+    st.write("to extract valuable insights from large datasets and make data-driven decisions,")
+    st.write("contributing to the rapidly growing field of data science.")
     st.write("■ VISUALIZATION FOR BIGDATA")
     st.write("■ FUNDAMENTALS OF ARTIFICIAL INTELLIGENCE")
     st.write("■ DESIGN OF BIGDATA")
@@ -70,8 +95,8 @@ elif menu == "Work Experience":
 
     st.header("Experience 3: Sookmyung Women's University Intellectual Property Human Resources Development (IP HRD)")
     st.write("■  Job Position: Data analysis, research & development")
-    st.write("■  Innovative Patent Human Resource Development (IP HRD) is an AI patent education project supported by the Patent Office")
-
+    st.write("■  Innovative Patent Human Resource Development (IP HRD)")
+    st.write("is an AI patent education project supported by the Patent Office")
     st.markdown("<br>", unsafe_allow_html=True)  # 줄바꿈 추가
 
     st.header("Experience 2: NONGHYUB")
@@ -86,7 +111,7 @@ elif menu == "Work Experience":
 
 
 # Technical Stack 섹션
-elif menu == "Technical Stack":  # <-- Adjusted the indentation here
+elif menu == "Technical Stack":
     st.header("Technical Stack")
     st.markdown("<br>", unsafe_allow_html=True)
     st.write("■ LANGUAGES")
@@ -141,22 +166,19 @@ elif menu == "Technical Stack":  # <-- Adjusted the indentation here
     st.write("Jupyter")
     st.write("PyCharm")
 
-########## CSS를 사용하여 배경 이미지 변경하기 ##########
 
-# CSS를 사용하여 배경 이미지 변경하기
+# 배경 이미지 파일 경로 설정
+background_image_path = "C:/Users/wkdal/Desktop/2023/02. 프로젝트/06. 쿠폰/BACKGROUND/BACKGROUND IMAGE.png"
+
+
+# 배경 이미지 적용을 위한 스트림릿 코드
 st.markdown(
-    """
+    f"""
     <style>
-    body {
-        background-image: url('BACKGROUND.jpg'); /* 배경 이미지 경로를 설정합니다. */
-        background-size: cover; /* 이미지를 창에 맞게 확장합니다. */
-        background-repeat: no-repeat; /* 이미지 반복 없음 */
-        color: white; /* 글자 색상 */
-        font-size: 15px; /* 글자 크기 */
-        font-family: Pacifico, sans-serif; /* 글꼴 설정 */
-        text-align: left; /* 텍스트 정렬 (왼쪽) */
-    }
+    .reportview-container {{
+        background: url('{background_image_path}') no-repeat center center fixed;
+        background-size: cover;
+    }}
     </style>
     """,
-    unsafe_allow_html=True
-)
+    unsafe_allow_html=True)
